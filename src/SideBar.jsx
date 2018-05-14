@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function Sidebar(props) {
   return (
@@ -17,4 +18,7 @@ export default function Sidebar(props) {
       </li>
     </ul>
   )
+};
+Sidebar.propTypes = {
+  theme:PropTypes.string
 };

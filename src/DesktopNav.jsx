@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 
 export default function DesktopNav(props) {
   return (
@@ -17,4 +19,7 @@ export default function DesktopNav(props) {
       </li>
     </ul>
   )
+};
+DesktopNav.propTypes = {
+  theme:PropTypes.string,
 };

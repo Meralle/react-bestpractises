@@ -5,6 +5,7 @@ import SearchBar from './SearchBar.jsx';
 import Nav from './Nav.jsx';
 import CreatePost from './CreatePost.jsx';
 
+
 const theme = "dark"
 
 //TODO remove those inline styles and replace by two different themes. Checkout the Nav how the theme is passed down.
@@ -21,6 +22,7 @@ class App extends React.Component {
     //NOTE Read about refs https://reactjs.org/docs/refs-and-the-dom.html
     this.searchRef = React.createRef();
     this.state = {
+      // preview: localStorage.getItem('preview') || "",
       posts: [],
       form: {},
       search: "",

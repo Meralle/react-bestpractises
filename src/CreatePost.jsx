@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 const styles = {
   flexed: {
@@ -13,12 +14,14 @@ const styles = {
 }
 // TODO this could be turned into a functional component
 // https://hackernoon.com/react-stateless-functional-components-nine-wins-you-might-have-overlooked-997b0d933dbc
-export default class Post extends React.Component {
+export default class CreatePost extends React.Component {
+
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      preview: localStorage.getItem('preview') || ""
+      preview: localStorage.getItem('preview') || "",
+      selectImage:""
     }
   }
   componentDidMount = () =>{
@@ -31,7 +34,14 @@ export default class Post extends React.Component {
 
     //handle file select and show a preview of the current selected image
     //https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
-
+  }
+  fileChooseHandler = (e) => {
+    const selectImage = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(selectImage);
+    reader.onload = () => {
+    this.setState({selectImage:reader.result})
+    }
   }
 
     render() {
@@ -56,15 +66,22 @@ export default class Post extends React.Component {
             </label>
           </div>
            <input
-            onChange={this.handleChange}
+            onChange={this.fileChooseHandler}
+
             type="file"
             ref={input => {
               this.fileInput = input;
             }}
           />
-          <img src={this.state.preview} id="image"/>
-
+         <div><img src={this.state.selectImage} id="image"/></div>
+         
         </form>
     )
   }
 };
+CreatePost.propTypes = {
+ handleChange:PropTypes.func,
+ fileChooseHandler: PropTypes.func,
+ handleSubmit:PropTypes.func
+};
+
