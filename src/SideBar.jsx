@@ -26,3 +26,5 @@ export default function Sidebar(props) {
 Sidebar.propTypes = {
   theme:PropTypes.string
 };
+
+

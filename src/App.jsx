@@ -6,8 +6,9 @@ import Nav from './Nav.jsx';
 import CreatePost from './CreatePost.jsx';
 
 
+
 // const theme = "dark"
-const ThemeContext = React.createContext('dark');
+export const ThemeContext = React.createContext();
 
 //TODO remove those inline styles and replace by two different themes. Checkout the Nav how the theme is passed down.
 // https://material.io/tools/color/#!/?view.left=0&view.right=0
@@ -23,7 +24,7 @@ class App extends React.Component {
     //NOTE Read about refs https://reactjs.org/docs/refs-and-the-dom.html
     this.searchRef = React.createRef();
     this.state = {
-      // preview: localStorage.getItem('preview') || "",
+
       posts: [],
       form: {},
       search: "",
@@ -178,7 +179,7 @@ hemeContext
 
     return (
       <div>
-        <ThemeContext.Provider value="dark">
+        <ThemeContext.Provider value="light">
           <Nav/>
         </ThemeContext.Provider>
 
