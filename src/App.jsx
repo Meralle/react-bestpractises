@@ -28,11 +28,11 @@ class App extends React.Component {
     }
     //TODO Some of this bindings are not needed anymore
     //handleSubmit and handleChange can be removed but handleDelete not. Fix that
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
+    // this.handleDelete = this.handleDelete.bind(this);
+    // this.handleCancel = this.handleCancel.bind(this);
+    // this.handleUpdate = this.handleUpdate.bind(this);
   }
   componentDidMount = () => {
     fetch(`http://localhost:5000/api/posts`).then(resp => resp.json()).then(posts => {
@@ -70,33 +70,78 @@ class App extends React.Component {
     this.setState({search: this.searchRef.current.value});
   }
 
-  handleDelete(id) {
+  handleDelete = (id) => {
     //TODO this could be replaced by a native fetch
-    axios.delete(`http://localhost:5000/api/posts/${id}`).then(response => {
-      console.log("Slide deleted successful: ", response);
-      fetch(`http://localhost:5000/api/posts`).then(resp => resp.json()).then(posts => {
-        this.setState({posts});
-        M.toast({html: 'Post deleted!'})
-      });
-    }).catch(function(error) {
-      console.log("Error: ", error);
-    })
+  //   axios.delete(`http://localhost:5000/api/posts/${id}`).then(response => {
+  //     console.log("Slide deleted successful: ", response);
+  //     fetch(`http://localhost:5000/api/posts`).then(resp => resp.json()).then(posts => {
+  //       this.setState({posts});
+  //       M.toast({html: 'Post deleted!'})
+  //     });
+  //   }).catch(function(error) {
+  //     console.log("Error: ", error);
+  //   })
+  // }
+  let form = {...this.state.form};
+      fetch(`http://localhost:5000/api/posts/${id}`, {
+        method: 'DELETE',
+        body: JSON.stringify(form),
+        headers: {
+          'content-type': 'application/json'
+        }
+
+      }).then(response => {
+        console.log("response: ", response);
+        fetch(`http://localhost:5000/api/posts`)
+        .then(resp => resp.json())
+        .then(posts => {
+        this.setState({posts: posts});
+        });
+        }).catch(function(error) {
+        console.log("Error: ", error);
+        })
   }
 
-  handleUpdate(event, post){
+
+  handleUpdate = (event, post) =>{
     //TODO this could be replaced by a native fetch
-    event.preventDefault()
-    axios.put(`http://localhost:5000/api/posts/${post._id}`, this.state.form).then(response => {
-      console.log("Slide edited successful: ", response);
-      fetch(`http://localhost:5000/api/posts`).then(resp => resp.json()).then(posts => {
-        this.setState({posts, editing: null});
-        M.toast({html: 'Post updated successfully!'})
+  //   event.preventDefault()
+  //   axios.put(`http://localhost:5000/api/posts/${post._id}`, this.state.form).then(response => {
+  //     console.log("Slide edited successful: ", response);
+  //     fetch(`http://localhost:5000/api/posts`).then(resp => resp.json()).then(posts => {
+  //       this.setState({posts, editing: null});
+  //       M.toast({html: 'Post updated successfully!'})
 
-      });
-    }).catch(function(error) {
-      console.log("Error: ", error);
-    })
+  //     });
+  //   }).catch(function(error) {
+  //     console.log("Error: ", error);
+  //   })
 
+  // }
+  event.preventDefault();
+        let form = this.state.form;
+        let posts = [...this.state.posts];
+        console.log(posts);
+        fetch(`http://localhost:5000/api/posts/${post._id}`, {
+          method: 'PUT',
+          body: JSON.stringify(form),
+          headers: {
+            'content-type': 'application/json'
+          }
+        })
+        .then(response => {
+          fetch('http://localhost:5000/api/posts')
+          .then(resp => resp.json())
+          .then(posts => {
+            this.setState({posts: posts});
+          });
+          console.log(post);
+          this.setState({posts: posts, editing: null})
+
+        }).catch(function(error) {
+          console.log("ERROR:", error);
+
+        })
   }
   handleEdit = (post) => {
     this.setState({
