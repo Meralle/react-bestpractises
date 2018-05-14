@@ -6,7 +6,8 @@ import Nav from './Nav.jsx';
 import CreatePost from './CreatePost.jsx';
 
 
-const theme = "dark"
+// const theme = "dark"
+const ThemeContext = React.createContext('dark');
 
 //TODO remove those inline styles and replace by two different themes. Checkout the Nav how the theme is passed down.
 // https://material.io/tools/color/#!/?view.left=0&view.right=0
@@ -104,7 +105,7 @@ class App extends React.Component {
         })
   }
 
-
+hemeContext 
   handleUpdate = (event, post) =>{
     //TODO this could be replaced by a native fetch
   //   event.preventDefault()
@@ -136,7 +137,7 @@ class App extends React.Component {
           .then(resp => resp.json())
           .then(posts => {
             this.setState({posts: posts});
-          });
+          });hemeContext 
           console.log(post);
           this.setState({posts: posts, editing: null})
 
@@ -177,7 +178,10 @@ class App extends React.Component {
 
     return (
       <div>
-        <Nav theme={theme}/>
+        <ThemeContext.Provider value="dark">
+          <Nav/>
+        </ThemeContext.Provider>
+
         <div className="container" >
           <div className="my-3 card">
             <CreatePost
@@ -194,6 +198,7 @@ class App extends React.Component {
             {posts.length > 0 ? posttemplate : <div className="card-content">Nothing found</div> }
           </div>
         </div>
+
       </div>
     );
   }
